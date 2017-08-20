@@ -1,0 +1,5 @@
+.upload-wrap {
+  white-space: nowrap; }
+  .upload-wrap .submission-images > * {
+    white-space: nowrap;
+    display: inline-block; }

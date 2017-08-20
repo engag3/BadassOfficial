@@ -1,58 +1,84 @@
 <?php
 /**
- * engag3 functions and definitions.
+ * bao functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package engag3
+ * @package bao
  */
-
 
 /**
  * Enqueue scripts and styles.
  */
- function engag3_stylesheet() {
-
-   $cssfile = get_stylesheet_directory() . "/style.css";
-   $turi = get_stylesheet_directory_uri();
-   if (file_exists($cssfile)) {
-       $cssuri = "$turi/style.css?v=100";
-   }
-
-   wp_enqueue_style( 'engag3-style', $cssuri, array('engine-style') );
+ function my_theme_enqueue_styles() {
+     wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
 
  }
- add_action( 'wp_enqueue_scripts', 'engag3_stylesheet' );
+ add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
+
+
+ /**
+  * Enqueue scripts and styles.
+  */
+ function bao_scripts() {
+
+ 	wp_enqueue_script( 'boa-script', get_stylesheet_directory_uri() . '/assets/js/script.js', array('jquery'), '20151215', true );
+
+ 	wp_enqueue_script( 'bao-linkify', get_stylesheet_directory_uri() . '/assets/js/linkify.min.js', array(), '20151215', true );
+
+ 	wp_enqueue_script( 'bao-linkify_jQuery', get_stylesheet_directory_uri() . '/assets/js/linkify-jquery.min.js', array('jquery'), '20151215', true );
+
+ 	wp_enqueue_script( 'bao-clipboard', get_stylesheet_directory_uri() . '/assets/js/clipboard.min.js', array('jquery'), '20151215', true );
+
+ }
+ add_action( 'wp_enqueue_scripts', 'bao_scripts' );
 
 
 
 
 
-function woocommerce_button_proceed_to_checkout() {
-   $checkout_url = WC()->cart->get_checkout_url();
-   ?>
-   <a href="<?php echo $checkout_url; ?>" class="checkout-button button alt wc-forward"><?php _e( 'Checkout', 'woocommerce' ); ?></a>
-   <?php
+
+
+require get_stylesheet_directory() . '/upload-form.php';
+
+
+
+
+
+function custom_redirect($url, $post_id, $form_data)
+{
+    if ($form_data['id']==1764)
+        return 'https://badassofficial.com/app/submitted/';
+
+    return $url;
 }
+add_filter('cred_success_redirect', 'custom_redirect',10,3);
 
 
 
-// hide coupon field on checkout page
-function hide_coupon_field_on_checkout( $enabled ) {
-	if ( is_checkout() ) {
-		$enabled = false;
-	}
-	return $enabled;
-}
-add_filter( 'woocommerce_coupons_enabled', 'hide_coupon_field_on_checkout' );
 
-
-
-function agentwp_dequeue_stylesandscripts() {
-  if ( class_exists( 'woocommerce' ) ) {
-    wp_dequeue_style( 'select2' );
-    wp_deregister_style( 'select2' );
-    wp_dequeue_script( 'select2');
-    wp_deregister_script('select2');
-  }
-} add_action( 'wp_enqueue_scripts', 'agentwp_dequeue_stylesandscripts', 100 );
+ //
+ //
+ //
+ //
+ // /**
+ //  * Add a filter to stylesheet_uri, which appends a query string to it automagically.
+ //  */
+ // add_filter('stylesheet_uri', 'zk_css_versioner');
+ // /**
+ //  * the goal of this method is to append a query string to the css url for the site.
+ //  * the query string currently is determined by the last time the css file was modified
+ //  * the theory is that if the file is modified, change the value of v=, which should
+ //  * force the CDN to pull a new version from the origin server. This could be a
+ //  * a hit on performance, not sure yet. Let's get it working first.
+ //  *
+ //  * @return string
+ //  */
+ // function zk_css_versioner() {
+ //     $cssfile = get_stylesheet_directory() . "/style.css";
+ //     $turi = get_template_directory_uri();
+ //     if (file_exists($cssfile)) {
+ //         $cssuri = "$turi/style.css?v=" . filemtime($cssfile);
+ //     }
+ //     echo $cssuri;
+ // }
