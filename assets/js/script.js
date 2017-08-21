@@ -1,37 +1,6 @@
 jQuery(document).ready(function( $ ) {
 
-  $('.submission-links').linkify({
-      target: "_blank",
-      className: 'download-link button',
-      attributes: {
-         download: ''
-       }
-  });
 
-
-
-    // Upload Menu toggle(s)
-  $('#photos-btn').on('click', function(e) {
-      $('#photos-btn, .cred-field-photos').addClass("is-active"); //you can list several class names
-      $('#videos-btn, .cred-field-videos').removeClass("is-active"); //you can list several class names
-  });
-    // Upload Menu toggle(s)
-  $('#videos-btn').on('click', function(e) {
-      $('#photos-btn, .cred-field-photos').removeClass("is-active"); //you can list several class names
-      $('#videos-btn, .cred-field-videos').addClass("is-active"); //you can list several class names
-  });
-
-  $('.copy-btn').click(function(){
-    var $this = $(this);
-    $this.toggleClass('SeeMore2');
-    if($this.hasClass('SeeMore2')){
-        $this.text('Copied ✓');
-    }
-    $(this).addClass('is-active');
-  });
-
-
-  new Clipboard('.copy-btn');
 
 
   // App menu
